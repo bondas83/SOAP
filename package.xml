@@ -25,12 +25,9 @@
   <license>PHP License</license>
   <release>
     <state>beta</state>
-    <version>0.8.1</version>
-    <date>2004-12-03</date>
+    <version>0.8.2</version>
+    <date>2004-xx-xx</date>
     <notes>
-    Bugfixes.
-   This version was actually supposed to be RC4 but new version naming 
-convention prohibit such a version.
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="SOAP">
