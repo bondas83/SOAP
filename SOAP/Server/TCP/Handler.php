@@ -20,17 +20,6 @@
  */
 
 /**
- * server base class
- */
-require_once 'Net/Server.php';
-
-/**
- * base class for the handler
- */
-require_once 'Net/Server/Handler.php';
-
-
-/**
  * SOAP Server Class that implements a TCP SOAP Server.
  * http://www.pocketsoap.com/specs/smtpbinding/
  *
