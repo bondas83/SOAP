@@ -23,8 +23,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-/** PEAR_Error */
-require_once 'PEAR.php';
 
 /**
  * PEAR::Error wrapper used to match SOAP Faults to PEAR Errors
@@ -32,8 +30,7 @@ require_once 'PEAR.php';
  * SOAP_Fault can provide a complete backtrace of the error.  Revealing these
  * details in a public web services is a bad idea because it can be used by
  * attackers.  Thus you have to enable backtrace information in SOAP_Fault
- * responses by putting the following code in your script after your
- * "require_once 'SOAP/Server.php';" line:
+ * responses by putting the following code in your script 
  *
  * <code>
  * $backtrace =& PEAR::getStaticProperty('SOAP_Fault', 'backtrace');

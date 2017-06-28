@@ -19,10 +19,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-/** SOAP_Server_Email */
-require_once 'SOAP/Server/Email.php';
-require_once 'SOAP/Transport.php';
-
 /**
  * SOAP Server Class that implements an email SOAP server.
  * http://www.pocketsoap.com/specs/smtpbinding/

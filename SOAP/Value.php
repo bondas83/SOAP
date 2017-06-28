@@ -22,8 +22,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-require_once 'SOAP/Base.php';
-
 /**
  * SOAP::Value
  *

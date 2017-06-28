@@ -27,9 +27,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-require_once 'SOAP/Transport.php';
-require_once 'Mail/smtp.php';
-
 /**
  * SMTP Transport for SOAP
  *

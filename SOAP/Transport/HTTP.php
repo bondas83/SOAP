@@ -28,11 +28,6 @@
  */
 
 /**
- * Needed Classes
- */
-require_once 'SOAP/Transport.php';
-
-/**
  *  HTTP Transport for SOAP
  *
  * @access public

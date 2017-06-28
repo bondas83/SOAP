@@ -22,14 +22,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-/** SOAP_Value */
-require_once 'SOAP/Value.php';
-require_once 'SOAP/Base.php';
-require_once 'SOAP/Transport.php';
-require_once 'SOAP/WSDL.php';
-require_once 'SOAP/Fault.php';
-require_once 'SOAP/Parser.php';
-
 // Arnaud: the following code was taken from DataObject and adapted to suit
 
 // this will be horrifically slow!!!!

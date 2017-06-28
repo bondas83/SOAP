@@ -20,8 +20,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-require_once 'SOAP/Transport.php';
-
 /**
  * Test transport for SOAP.
  *

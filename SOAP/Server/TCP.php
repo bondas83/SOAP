@@ -19,10 +19,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-require_once 'SOAP/Server.php';
-
-require_once 'SOAP/Server/TCP/Handler.php';
-
 
 /**
  * SOAP Server Class that implements a TCP SOAP Server.

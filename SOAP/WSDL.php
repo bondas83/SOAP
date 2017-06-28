@@ -22,10 +22,6 @@
  * @link       http://pear.php.net/package/SOAP
  */
 
-require_once 'SOAP/Base.php';
-require_once 'SOAP/Fault.php';
-require_once 'HTTP/Request.php';
-
 define('WSDL_CACHE_MAX_AGE', 43200);
 
 /**
@@ -814,7 +810,6 @@ class SOAP_WSDL extends SOAP_Base
         $classname = $this->_sanitize($classname);
         if (!class_exists($classname)) {
             $proxy = $this->generateProxyCode($port, $classname);
-            require_once 'SOAP/Client.php';
             eval($proxy);
         }
         $proxy = new $classname;

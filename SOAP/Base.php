@@ -27,8 +27,6 @@
 /** Define linebreak sequence for the Mail_Mime package. */
 define('MAIL_MIMEPART_CRLF', "\r\n");
 
-require_once 'PEAR.php';
-
 if (!defined('INF')) {
     define('INF', 1.8e307);
 }
@@ -124,7 +122,6 @@ class SOAP_Base_Object extends PEAR
             if (!$code) {
                 $code = $is_instance ? $this->_myfaultcode : 'Client';
             }
-            require_once 'SOAP/Fault.php';
             $fault = new SOAP_Fault($str, $code, $actorURI, $detail, $mode,
                                     $options);
         }
