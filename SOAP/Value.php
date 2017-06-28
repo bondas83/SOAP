@@ -130,7 +130,7 @@ class SOAP_Value
      *                           - 'no_type_prefix': suppress adding of the
      *                             namespace prefix
      */
-    function SOAP_Value($name = '', $type = false, $value = null,
+    function __construct($name = '', $type = false, $value = null,
                         $attributes = array(), $options = array())
     {
         $this->nqn = new QName($name);
@@ -189,7 +189,7 @@ class SOAP_Header extends SOAP_Value
      * @param integer $mustunderstand  Zero or one.
      * @param mixed $attributes        Attributes.
      */
-    function SOAP_Header($name = '', $type, $value, $mustunderstand = 0,
+    function __construct($name = '', $type, $value, $mustunderstand = 0,
                          $attributes = array())
     {
         if (!is_array($attributes)) {
@@ -197,7 +197,7 @@ class SOAP_Header extends SOAP_Value
             $attributes = array();
         }
 
-        parent::SOAP_Value($name, $type, $value, $attributes);
+        parent::__construct($name, $type, $value, $attributes);
 
         if (isset($actor)) {
             $this->attributes[SOAP_BASE::SOAPENVPrefix().':actor'] = $actor;
@@ -229,10 +229,10 @@ class SOAP_Attachment extends SOAP_Value
      * @param string $file      The attachment data.
      * @param array $attributes Attributes.
      */
-    function SOAP_Attachment($name = '', $type = 'application/octet-stream',
+    function __construct($name = '', $type = 'application/octet-stream',
                              $filename, $file = null, $attributes = null)
     {
-        parent::SOAP_Value($name, null, null);
+        parent::__construct($name, null, null);
 
         $filedata = $file === null ? $this->_file2str($filename) : $file;
         $filename = basename($filename);

@@ -84,10 +84,10 @@ class SOAP_Server extends SOAP_Base
                           'http_status_success' => '200 OK',
                           'http_status_fault' => '500 SOAP Fault');
 
-    function SOAP_Server($options = null)
+    function __construct($options = null)
     {
         ini_set('track_errors', 1);
-        parent::SOAP_Base('Server');
+        parent::__construct('Server');
 
         if (is_array($options)) {
             if (isset($options['use'])) {
@@ -487,7 +487,7 @@ class SOAP_Server extends SOAP_Base
 
         /* Need to set special error detection inside the value class to
          * differentiate between no params passed, and an error decoding. */
-        $request_data = $this->__decodeRequest($request_val);
+        $request_data = $this->decodeRequest($request_val);
         if (PEAR::isError($request_data)) {
             $this->_raiseSoapFault($request_data);
             return null;
@@ -516,7 +516,7 @@ class SOAP_Server extends SOAP_Base
         return $this->makeEnvelope($methodValue, $header_results, $this->response_encoding);
     }
 
-    function &__decodeRequest($request, $shift = false)
+    private function &decodeRequest($request, $shift = false)
     {
         if (!$request) {
             $decoded = null;
@@ -528,7 +528,7 @@ class SOAP_Server extends SOAP_Base
             $fault = &$this->_raiseSoapFault($request);
             return $fault;
         } else if (!is_a($request, 'SOAP_Value')) {
-            $fault = &$this->_raiseSoapFault('Invalid data in server::__decodeRequest');
+            $fault = &$this->_raiseSoapFault('Invalid data in server::decodeRequest');
             return $fault;
         }
 

@@ -43,10 +43,10 @@ class SOAP_Server_TCP extends SOAP_Server {
     var $port;
     var $type;
 
-    function SOAP_Server_TCP($localaddr = '127.0.0.1', $port = 10000,
+    function __construct($localaddr = '127.0.0.1', $port = 10000,
                              $type = 'sequential')
     {
-        parent::SOAP_Server();
+        parent::__construct();
         $this->localaddr = $localaddr;
         $this->port = $port;
         $this->type = $type;
@@ -60,7 +60,7 @@ class SOAP_Server_TCP extends SOAP_Server {
             echo $server->getMessage()."\n";
         }
         
-        $handler = &new SOAP_Server_TCP_Handler;
+        $handler = new SOAP_Server_TCP_Handler;
         $handler->setSOAPServer($this);
         
         // hand over the object that handles server events

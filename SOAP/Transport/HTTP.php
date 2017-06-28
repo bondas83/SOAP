@@ -75,9 +75,9 @@ class SOAP_Transport_HTTP extends SOAP_Transport
      * @param string $url       HTTP url to SOAP endpoint.
      * @param string $encoding  Encoding to use.
      */
-    function SOAP_Transport_HTTP($url, $encoding = SOAP_DEFAULT_ENCODING)
+    function __construct($url, $encoding = SOAP_DEFAULT_ENCODING)
     {
-        parent::SOAP_Base('HTTP');
+        parent::__construct('HTTP');
         $this->urlparts = @parse_url($url);
         $this->url = $url;
         $this->encoding = $encoding;
@@ -582,7 +582,7 @@ class SOAP_Transport_HTTP extends SOAP_Transport
         if (defined('CURLOPT_HTTP_VERSION')) {
             curl_setopt($ch, CURLOPT_HTTP_VERSION, 1);
         }
-        if (!ini_get('safe_mode') && !ini_get('open_basedir')) {
+        if (!ini_get('open_basedir')) {
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         }
         $cookies = $this->_generateCookieHeader($options);
