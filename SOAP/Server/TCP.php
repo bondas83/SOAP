@@ -36,57 +36,64 @@
  * @package  SOAP
  * @author   Shane Caraveo <shane@php.net>
  */
-class SOAP_Server_TCP extends SOAP_Server {
+class SOAP_Server_TCP extends SOAP_Server
+{
 
-    var $headers = array();
-    var $localaddr;
-    var $port;
-    var $type;
+	var $headers = array();
+	var $localaddr;
+	var $port;
+	var $type;
 
-    function __construct($localaddr = '127.0.0.1', $port = 10000,
-                             $type = 'sequential')
-    {
-        parent::__construct();
-        $this->localaddr = $localaddr;
-        $this->port = $port;
-        $this->type = $type;
-    }
+	function __construct(
+		$localaddr = '127.0.0.1',
+		$port = 10000,
+		$type = 'sequential'
+	) {
+	
+		parent::__construct();
+		$this->localaddr = $localaddr;
+		$this->port = $port;
+		$this->type = $type;
+	}
 
-    function run($idleTimeout = null)
-    {        
-        $server = &Net_Server::create($this->type, $this->localaddr,
-                                      $this->port);
-        if (PEAR::isError($server)) {
-            echo $server->getMessage()."\n";
-        }
-        
-        $handler = new SOAP_Server_TCP_Handler;
-        $handler->setSOAPServer($this);
-        
-        // hand over the object that handles server events
-        $server->setCallbackObject($handler);
-        $server->readEndCharacter = '</SOAP-ENV:Envelope>';
-        $server->setIdleTimeout($idleTimeout);
-        
-        // start the server
-        $server->start();
-    }
+	function run($idleTimeout = null)
+	{
+		$server = &Net_Server::create(
+			$this->type,
+			$this->localaddr,
+			$this->port
+		);
+		if (PEAR::isError($server)) {
+			echo $server->getMessage()."\n";
+		}
 
-    function service(&$data)
-    {
-        /* TODO: we need to handle attachments somehow. */
-        $response = $this->parseRequest($data);
-        if ($this->fault) {
-            $response = $this->fault->message($this->response_encoding);
-        }
-        return $response;
-    }
-    
-    function onStart()
-    {
-    }
-    
-    function onIdle()
-    {
-    }
+				$handler = new SOAP_Server_TCP_Handler;
+		$handler->setSOAPServer($this);
+
+				// hand over the object that handles server events
+		$server->setCallbackObject($handler);
+		$server->readEndCharacter = '</SOAP-ENV:Envelope>';
+		$server->setIdleTimeout($idleTimeout);
+
+				// start the server
+		$server->start();
+	}
+
+	function service(&$data)
+	{
+		/* TODO: we need to handle attachments somehow. */
+		$response = $this->parseRequest($data);
+		if ($this->fault) {
+			$response = $this->fault->message($this->response_encoding);
+		}
+		return $response;
+	}
+
+	function onStart()
+	{
+	}
+
+	function onIdle()
+	{
+	}
 }

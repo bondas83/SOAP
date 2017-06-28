@@ -30,37 +30,38 @@
  * @package  SOAP
  * @author   Tomasz Rup <tomasz.rup@gmail.com>
  */
-class SOAP_Server_TCP_Handler extends Net_Server_Handler {
+class SOAP_Server_TCP_Handler extends Net_Server_Handler
+{
 
-    var $_SOAP_Server;
+	var $_SOAP_Server;
 
-    function setSOAPServer(&$server)
-    {
-        $this->_SOAP_Server =& $server;
-    }
-    
-    /**
-     * If the user sends data, send it back to him
-     *
-     * @access   public
-     * @param    integer $clientId
-     * @param    string  $data
-     */
-    function onReceiveData($clientId = 0, $data = '')
-    {
-        if (trim($data) <> '') {
-            $response = $this->_SOAP_Server->service($data);
-            $this->_server->sendData($clientId, $response);
-        }
-    }
-    
-    function onStart()
-    {
-        $this->_SOAP_Server->onStart();
-    }
-    
-    function onIdle()
-    {
-        $this->_SOAP_Server->onIdle();
-    }
+	function setSOAPServer(&$server)
+	{
+		$this->_SOAP_Server =& $server;
+	}
+
+		/**
+	 * If the user sends data, send it back to him
+	 *
+	 * @access   public
+	 * @param    integer $clientId
+	 * @param    string  $data
+	 */
+	function onReceiveData($clientId = 0, $data = '')
+	{
+		if (trim($data) <> '') {
+			$response = $this->_SOAP_Server->service($data);
+			$this->_server->sendData($clientId, $response);
+		}
+	}
+
+	function onStart()
+	{
+		$this->_SOAP_Server->onStart();
+	}
+
+	function onIdle()
+	{
+		$this->_SOAP_Server->onIdle();
+	}
 }

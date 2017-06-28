@@ -29,24 +29,23 @@
  */
 class SOAP_Transport_TEST extends SOAP_Transport
 {
-    /**
-     * Sends and receives SOAP data.
-     *
-     * @param string $msg     Outgoing SOAP data.
-     * @param array $options  Options.
-     *
-     * @return string|SOAP_Fault
-     */
-    function send($msg, $options = array())
-    {
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        $this->outgoing_payload = $msg;
-        ob_start();
-        $server = clone($options['server']);
-        $server->service($msg);
-        $this->incoming_payload = ob_get_contents();
-        ob_end_clean();
-        return $this->incoming_payload;
-    }
-
+	/**
+	 * Sends and receives SOAP data.
+	 *
+	 * @param string $msg     Outgoing SOAP data.
+	 * @param array $options  Options.
+	 *
+	 * @return string|SOAP_Fault
+	 */
+	function send($msg, $options = array())
+	{
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$this->outgoing_payload = $msg;
+		ob_start();
+		$server = clone($options['server']);
+		$server->service($msg);
+		$this->incoming_payload = ob_get_contents();
+		ob_end_clean();
+		return $this->incoming_payload;
+	}
 }

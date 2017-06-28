@@ -37,109 +37,108 @@
  */
 class SOAP_Transport extends SOAP_Base
 {
-    /**
-     * Connection endpoint URL.
-     *
-     * @var string
-     */
-    var $url = '';
+	/**
+	 * Connection endpoint URL.
+	 *
+	 * @var string
+	 */
+	var $url = '';
 
-    /**
-     * Array containing urlparts.
-     *
-     * @see parse_url()
-     *
-     * @var mixed
-     */
-    var $urlparts = null;
+	/**
+	 * Array containing urlparts.
+	 *
+	 * @see parse_url()
+	 *
+	 * @var mixed
+	 */
+	var $urlparts = null;
 
-    /**
-     * Incoming payload.
-     *
-     * @var string
-     */
-    var $incoming_payload = '';
+	/**
+	 * Incoming payload.
+	 *
+	 * @var string
+	 */
+	var $incoming_payload = '';
 
-    /**
-     * Outgoing payload.
-     *
-     * @var string
-     */
-    var $outgoing_payload = '';
+	/**
+	 * Outgoing payload.
+	 *
+	 * @var string
+	 */
+	var $outgoing_payload = '';
 
-    /**
-     * Request encoding.
-     *
-     * @var string
-     */
-    var $encoding = SOAP_DEFAULT_ENCODING;
+	/**
+	 * Request encoding.
+	 *
+	 * @var string
+	 */
+	var $encoding = SOAP_DEFAULT_ENCODING;
 
-    /**
-     * Response encoding.
-     *
-     * We assume UTF-8 if no encoding is set.
-     *
-     * @var string
-     */
-    var $result_encoding = 'UTF-8';
+	/**
+	 * Response encoding.
+	 *
+	 * We assume UTF-8 if no encoding is set.
+	 *
+	 * @var string
+	 */
+	var $result_encoding = 'UTF-8';
 
-    /**
-     * Decoded attachments from the reponse.
-     *
-     * @var array
-     */
-    var $attachments;
+	/**
+	 * Decoded attachments from the reponse.
+	 *
+	 * @var array
+	 */
+	var $attachments;
 
-    /**
-     * Request User-Agent.
-     *
-     * @var string
-     */
-    var $_userAgent = SOAP_LIBRARY_NAME;
+	/**
+	 * Request User-Agent.
+	 *
+	 * @var string
+	 */
+	var $_userAgent = SOAP_LIBRARY_NAME;
 
-    /**
-     * Sends and receives SOAP data.
-     *
-     * @access public
-     * @abstract
-     *
-     * @param string  Outgoing SOAP data.
-     * @param array   Options.
-     *
-     * @return string|SOAP_Fault
-     */
-    function send($msg, $options = null)
-    {
-        return $this->_raiseSoapFault('SOAP_Transport::send() not implemented.');
-    }
+	/**
+	 * Sends and receives SOAP data.
+	 *
+	 * @access public
+	 * @abstract
+	 *
+	 * @param string  Outgoing SOAP data.
+	 * @param array   Options.
+	 *
+	 * @return string|SOAP_Fault
+	 */
+	function send($msg, $options = null)
+	{
+		return $this->_raiseSoapFault('SOAP_Transport::send() not implemented.');
+	}
 
-    function getTransport($url, $encoding = SOAP_DEFAULT_ENCODING)
-    {
-        $urlparts = @parse_url($url);
+	function getTransport($url, $encoding = SOAP_DEFAULT_ENCODING)
+	{
+		$urlparts = @parse_url($url);
 
-        if (!$urlparts['scheme']) {
-            return SOAP_Base_Object::_raiseSoapFault("Invalid transport URI: $url");
-        }
+		if (!$urlparts['scheme']) {
+			return SOAP_Base_Object::_raiseSoapFault("Invalid transport URI: $url");
+		}
 
-        if (strcasecmp($urlparts['scheme'], 'mailto') == 0) {
-            $transport_type = 'SMTP';
-        } elseif (strcasecmp($urlparts['scheme'], 'https') == 0) {
-            $transport_type = 'HTTP';
-        } else {
-            /* Handle other transport types */
-            $transport_type = strtoupper($urlparts['scheme']);
-        }
-        $transport_class = "SOAP_Transport_$transport_type";
-        if (!class_exists($transport_class)) {
-            if (!(@include_once('SOAP/Transport/' . basename($transport_type) . '.php'))) {
-                return SOAP_Base_Object::_raiseSoapFault("No Transport for {$urlparts['scheme']}");
-            }
-        }
-        if (!class_exists($transport_class)) {
-            return SOAP_Base_Object::_raiseSoapFault("No Transport class $transport_class");
-        }
+		if (strcasecmp($urlparts['scheme'], 'mailto') == 0) {
+			$transport_type = 'SMTP';
+		} elseif (strcasecmp($urlparts['scheme'], 'https') == 0) {
+			$transport_type = 'HTTP';
+		} else {
+			/* Handle other transport types */
+			$transport_type = strtoupper($urlparts['scheme']);
+		}
+		$transport_class = "SOAP_Transport_$transport_type";
+		if (!class_exists($transport_class)) {
+			if (!(@include_once('SOAP/Transport/' . basename($transport_type) . '.php'))) {
+				return SOAP_Base_Object::_raiseSoapFault("No Transport for {$urlparts['scheme']}");
+			}
+		}
+		if (!class_exists($transport_class)) {
+			return SOAP_Base_Object::_raiseSoapFault("No Transport class $transport_class");
+		}
 
-        return new $transport_class($url, $encoding);
-    }
-
+		return new $transport_class($url, $encoding);
+	}
 }

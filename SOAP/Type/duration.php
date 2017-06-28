@@ -78,106 +78,123 @@
  */
 class SOAP_Type_duration
 {
-    // format PnYnMnDTnHnMnS
-    function unix_to_duration($seconds)
-    {
-        return SOAP_Type_duration::getduration($seconds);
-    }
+	// format PnYnMnDTnHnMnS
+	function unix_to_duration($seconds)
+	{
+		return SOAP_Type_duration::getduration($seconds);
+	}
 
-    function mod($a, $b, &$d, &$r)
-    {
-        $d = floor($a / $b);
-        $r = $a % $b;
-    }
+	function mod($a, $b, &$d, &$r)
+	{
+		$d = floor($a / $b);
+		$r = $a % $b;
+	}
 
-    function getduration($seconds)
-    {
-        $neg = '';
-        if ($seconds < 0) {
-            $neg = '-';
-            $seconds = $seconds * -1;
-        }
+	function getduration($seconds)
+	{
+		$neg = '';
+		if ($seconds < 0) {
+			$neg = '-';
+			$seconds = $seconds * -1;
+		}
 
-        $_mi = 60;
-        $_h = $_mi * 60;
-        $_d = $_h * 24;
-        // XXX how do we properly handle month and year values?
-        $_m = $_d * 30;
-        $_y = $_d * 365;
+		$_mi = 60;
+		$_h = $_mi * 60;
+		$_d = $_h * 24;
+		// XXX how do we properly handle month and year values?
+		$_m = $_d * 30;
+		$_y = $_d * 365;
 
-        SOAP_Type_duration::mod($seconds, $_y, $y, $seconds);
-        SOAP_Type_duration::mod($seconds, $_m, $m, $seconds);
-        SOAP_Type_duration::mod($seconds, $_d, $d, $seconds);
-        SOAP_Type_duration::mod($seconds, $_h, $h, $seconds);
-        SOAP_Type_duration::mod($seconds, $_mi, $mi, $s);
+		SOAP_Type_duration::mod($seconds, $_y, $y, $seconds);
+		SOAP_Type_duration::mod($seconds, $_m, $m, $seconds);
+		SOAP_Type_duration::mod($seconds, $_d, $d, $seconds);
+		SOAP_Type_duration::mod($seconds, $_h, $h, $seconds);
+		SOAP_Type_duration::mod($seconds, $_mi, $mi, $s);
 
-        $duration = $neg.'P';
-        if ($y) $duration .= $y.'Y';
-        if ($m) $duration .= $m.'M';
-        if ($d) $duration .= $d.'D';
-        if ($h || $mi || $s) $duration .='T';
-        if ($h) $duration .= $h.'H';
-        if ($mi) $duration .= $mi.'M';
-        if ($s) $duration .= $s.'S';
-        if ($duration == 'P' || $duration == '-P') $duration = 'PT0S';
+		$duration = $neg.'P';
+		if ($y) {
+			$duration .= $y.'Y';
+		}
+		if ($m) {
+			$duration .= $m.'M';
+		}
+		if ($d) {
+			$duration .= $d.'D';
+		}
+		if ($h || $mi || $s) {
+			$duration .='T';
+		}
+		if ($h) {
+			$duration .= $h.'H';
+		}
+		if ($mi) {
+			$duration .= $mi.'M';
+		}
+		if ($s) {
+			$duration .= $s.'S';
+		}
+		if ($duration == 'P' || $duration == '-P') {
+			$duration = 'PT0S';
+		}
 
-        return $duration;
-    }
+		return $duration;
+	}
 
-    function mkduration($n, $Y, $Mo, $D, $H, $Mi, $S)
-    {
-        $_mi = 60;
-        $_h = $_mi * 60;
-        $_d = $_h * 24;
-        // XXX how do we properly handle month and year values?
-        $_m = $_d * 30;
-        $_y = $_d * 365;
+	function mkduration($n, $Y, $Mo, $D, $H, $Mi, $S)
+	{
+		$_mi = 60;
+		$_h = $_mi * 60;
+		$_d = $_h * 24;
+		// XXX how do we properly handle month and year values?
+		$_m = $_d * 30;
+		$_y = $_d * 365;
 
-        $sec = $Y * $_y + $Mo * $_m + $D * $_d + $H * $_h + $Mi * $_mi + $S;
-        if ($n == '-') $sec = $sec * -1;
+		$sec = $Y * $_y + $Mo * $_m + $D * $_d + $H * $_h + $Mi * $_mi + $S;
+		if ($n == '-') {
+			$sec = $sec * -1;
+		}
 
-        return $sec;
-    }
+		return $sec;
+	}
 
-    function duration_to_unix($duration)
-    {
-        if (preg_match('/(-)?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?T?([0-9]+H)?([0-9]+M)?([0-9]+S)?/', $duration, $regs)) {
-            return SOAP_Type_duration::mkduration($regs[1], $regs[2], $regs[3], $regs[4], $regs[5], $regs[6], $regs[7]);
-        }
-        return false;
-    }
+	function duration_to_unix($duration)
+	{
+		if (preg_match('/(-)?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?T?([0-9]+H)?([0-9]+M)?([0-9]+S)?/', $duration, $regs)) {
+			return SOAP_Type_duration::mkduration($regs[1], $regs[2], $regs[3], $regs[4], $regs[5], $regs[6], $regs[7]);
+		}
+		return false;
+	}
 
-    function is_duration($duration)
-    {
-        return preg_match('/(-)?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?T?([0-9]+H)?([0-9]+M)?([0-9]+S)?/', $duration, $regs);
-    }
+	function is_duration($duration)
+	{
+		return preg_match('/(-)?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?T?([0-9]+H)?([0-9]+M)?([0-9]+S)?/', $duration, $regs);
+	}
 
-    function _test($time)
-    {
-        if (SOAP_Type_duration::is_duration($time)) {
-            $t = SOAP_Type_duration::duration_to_unix($time);
-            echo "Duration: $time is ".$t." seconds\n";
-        } else {
-            $t = SOAP_Type_duration::unix_to_duration($time);
-            echo "Seconds: $time is ".$t." duration\n";
-        }
-        return $t;
-    }
+	function _test($time)
+	{
+		if (SOAP_Type_duration::is_duration($time)) {
+			$t = SOAP_Type_duration::duration_to_unix($time);
+			echo "Duration: $time is ".$t." seconds\n";
+		} else {
+			$t = SOAP_Type_duration::unix_to_duration($time);
+			echo "Seconds: $time is ".$t." duration\n";
+		}
+		return $t;
+	}
 
-    function add($d1, $d2)
-    {
-        $s1 = SOAP_Type_duration::duration_to_unix($d1);
-        $s2 = SOAP_Type_duration::duration_to_unix($d2);
-        return SOAP_Type_duration::unix_to_duration($s1 + $s2);
-    }
+	function add($d1, $d2)
+	{
+		$s1 = SOAP_Type_duration::duration_to_unix($d1);
+		$s2 = SOAP_Type_duration::duration_to_unix($d2);
+		return SOAP_Type_duration::unix_to_duration($s1 + $s2);
+	}
 
-    function subtract($d1, $d2)
-    {
-        $s1 = SOAP_Type_duration::duration_to_unix($d1);
-        $s2 = SOAP_Type_duration::duration_to_unix($d2);
-        return SOAP_Type_duration::unix_to_duration($s1 - $s2);
-    }
-
+	function subtract($d1, $d2)
+	{
+		$s1 = SOAP_Type_duration::duration_to_unix($d1);
+		$s2 = SOAP_Type_duration::duration_to_unix($d2);
+		return SOAP_Type_duration::unix_to_duration($s1 - $s2);
+	}
 }
 
 /* Tests. */
@@ -190,5 +207,5 @@ SOAP_Type_duration::_test($t);
 $t = SOAP_Type_duration::_test(time());
 SOAP_Type_duration::_test($t);
 
-echo 'Add should be PT0S: ' . SOAP_Type_duration::add('-P120D','P4M') . "\n";
-echo 'Subtract should be PT0S: ' . SOAP_Type_duration::subtract('P120D','P4M') . "\n";
+echo 'Add should be PT0S: ' . SOAP_Type_duration::add('-P120D', 'P4M') . "\n";
+echo 'Subtract should be PT0S: ' . SOAP_Type_duration::subtract('P120D', 'P4M') . "\n";
