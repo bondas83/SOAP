@@ -52,11 +52,5 @@
     "require": {
         "pear/pear_exception": "*",
         "pear/pear": "*"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "*"
-    },
-    "suggest": {
-        "pear/mail": "Install optionally via your project's composer.json"
     }
 }
