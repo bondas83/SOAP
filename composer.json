@@ -36,11 +36,11 @@
             "./"
         ]
     },
-    "keywords": {
+    "keywords": [
         "soap",
         "pear",
         "pear/soap"
-    },
+    ],
     "description": "More info available on: http://pear.php.net/package/SOAP",
     "license": "PHP License",
     "name": "bondas83/soap",
