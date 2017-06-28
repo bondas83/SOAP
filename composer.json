@@ -39,7 +39,7 @@
     "keywords": {
         "soap",
         "pear",
-        "pear/soap",
+        "pear/soap"
     },
     "description": "More info available on: http://pear.php.net/package/SOAP",
     "license": "PHP License",
