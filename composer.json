@@ -33,7 +33,7 @@
     },
     "description": "More info available on: http://pear.php.net/package/SOAP",
     "license": "PHP License",
-    "name": "pear/soap",
+    "name": "bondas83/soap",
     "support": {
         "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=SOAP",
         "source": "https://github.com/pear/SOAP"
