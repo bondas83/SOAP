@@ -24,12 +24,22 @@
             "email": "arnaud@php.net",
             "name": "Arnaud Limbourg",
             "role": "Lead"
+        },
+        {
+            "email": "bpndas83@gmail.com",
+            "name": "Julius Smatavicius",
+            "role": "Lead Composer"
         }
     ],
     "autoload": {
         "classmap": [
             "./"
         ]
+    },
+    "keywords": {
+        "soap",
+        "pear",
+        "pear/soap",
     },
     "description": "More info available on: http://pear.php.net/package/SOAP",
     "license": "PHP License",
